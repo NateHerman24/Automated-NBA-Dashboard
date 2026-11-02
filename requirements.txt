@@ -1,5 +1,5 @@
 streamlit
-pandas==2.1.2
+pandas
 requests
 rapidfuzz
 pdfplumber
