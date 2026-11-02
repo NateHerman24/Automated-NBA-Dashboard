@@ -70,9 +70,13 @@ def load_data():
     vorp = vorp.dropna(subset=["Rating"]).copy()
 
     # Keep optional numeric columns numeric where possible.
+    # pandas 3.0 removed errors="ignore" from pd.to_numeric.
     for col in wins.columns:
         if col not in ("Team", "Player"):
-            wins[col] = pd.to_numeric(wins[col], errors="ignore")
+            try:
+                wins[col] = pd.to_numeric(wins[col], errors="raise")
+            except (ValueError, TypeError):
+                pass  # Preserve columns containing nonnumeric text.
     return wins, vorp
 
 
